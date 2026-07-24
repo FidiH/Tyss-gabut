@@ -78,7 +78,7 @@
 				</button>
 			</form>
 		{:else}
-			<p class="mt-4 text-green-600 font-semibold">saya sudah baca buku darimu, sy ada something else yg kmu mungkin penasaran</p>
+			<p class="mt-4 text-slate-900 font-light">saya sudah baca buku darimu, sy ada something else yg mungkin bisa menjawab pernyataanmu </p>
 			<a href="/1" class="inline-block mt-2 font-bold text-white rounded-xl py-1 px-3 bg-pink-500">
 				baiklah
 			</a>

@@ -25,7 +25,7 @@
 <main class="p-5">
 	<h1 class="font-bold mb-5">PART#1</h1>
 	<p>
-		Wow, kok kamu bisa sampai sini?
+		Wow, ternyata kamu buka dan bisa sampai sini.
 		<br />
 		<br />
 		Tapi oke deh... berhubung kamu sudah sampai sini, aku kasih coretan secara digital aja ya. Nggak
@@ -50,7 +50,6 @@
 		19, 25, 37, 61, 67, atau semuanya deh... mungkin aku bacanya bakal lebih terbawa emosi.
 		<br />
 		<br />
-		Untuk halaman selanjutnya setelah halaman 90 bakal aku catat di tempat lain, jadi nanti link-nya
-		bakal aku selipkan di halaman 111 ya.
+		Untuk catatan selanjutnya setelah halaman 90 bakal aku catat di tempat lain, jadi nanti kamu baca halaman 111 yah!
 	</p>
 </main>

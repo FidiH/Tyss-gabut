@@ -31,5 +31,5 @@
 </script>
 
 <main class="">
-  <h1 class="">Buka halaman 12</h1>
+  <h1 class="">baca halaman 12</h1>
 </main>

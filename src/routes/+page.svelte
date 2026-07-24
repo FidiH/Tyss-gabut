@@ -2,8 +2,8 @@
 	import { onDestroy } from 'svelte';
 
 	const List_Dialog = [
-		'kmu menemukan coretanku',
-		'dengerin lagu yg biasanya sy putar',
+		'aku nyimpen coretanku disuatu tempat',
+		'sebelum cari dengerin lagu yg biasanya aku putar',
 		'dengarin yah!, nikmati aja'
 	];
 
@@ -50,7 +50,7 @@
 </script>
 
 <section class="p-7">
-	<h1>Sepertinya kau tau</h1>
+	<h1>Dicek juga ternyata yah</h1>
 	<div>
 		<p id="dialog_teks">{Dialog}</p>
 		<button
