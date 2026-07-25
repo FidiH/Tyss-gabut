@@ -1,12 +1,12 @@
 <script lang="ts">
   // 1. Array berisi teks yang ingin ditampilkan bergantian
   let listKata = $state([
-    "buka.....",
-    "bukunya..",
-    "dihalaman",
-    "duabelas.",
-    "cari-tau.",
-    "sendri...",
+    "buka......",
+    "bukunya...",
+    "dihalaman.",
+    "enampuluh.",
+    "cari-tau...",
+    "sendri.....",
   ]);
 
   let speed = $state(1000); // Waktu ganti kata (2000ms = 2 detik)
@@ -31,5 +31,5 @@
 </script>
 
 <main class="">
-  <h1 class="">baca halaman 12</h1>
+  <h1 class="">baca halaman 60</h1>
 </main>
