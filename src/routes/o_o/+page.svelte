@@ -129,7 +129,7 @@
 			</form>
 		{:else}
 			<p class="mt-4 text-slate-700">saya sudah baca buku darimu, sy ada something else yg mungkin bisa menjawab pernyataanmu </p>
-			<a href="/1" class="inline-block mt-2 font-bold text-white rounded-xl py-2 px-4 bg-pink-500">
+			<a href="/7" class="inline-block mt-2 font-bold text-white rounded-xl py-2 px-4 bg-pink-500">
 				lanjut
 			</a>
 		{/if}
