@@ -24,15 +24,24 @@
 
 <main class="p-5">
 	<h1 class="font-bold mb-5">PART#1</h1>
-	<p>
+
+  <p>   
 		Wow, ternyata kamu buka dan bisa sampai sini.
 		<br />
 		<br />
+
 		Tapi oke deh... berhubung kamu sudah sampai sini, aku kasih coretan secara digital aja ya. Nggak
 		mau mengotori bukumu juga sih. kamu aja belum ada coret-coret, nggak afdol kalau yang punya
 		belum duluan.
-		<br />
-		<br />
+  </p>
+  
+  <div class="columns-3 gap-0 my-4">
+    {#each {length: 3} as _, i}
+    <img src="/img/0{i+1}.webp">
+    {/each}
+  </div>
+
+  <p>
 		Waktuku terbatas banget pas bikin website ini, jadi aku bagi jadi beberapa part ya biar gampang
 		diketiknya ;)
 		<br />
@@ -51,5 +60,5 @@
 		<br />
 		<br />
 		Untuk catatan selanjutnya setelah halaman 90 bakal aku catat di tempat lain, jadi nanti kamu baca halaman 111 yah!
-	</p>
+</p>
 </main>

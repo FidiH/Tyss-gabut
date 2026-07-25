@@ -3,38 +3,31 @@ export const actions = {
 	default: async ({ request, getClientAddress }) => {
 		const formData = await request.formData();
 
-		// Ambil data pesan
 		const pesan = formData.get('pesan');
-
-		// Ambil data info browser dari client
-		const rawBrowserInfo = formData.get('browser_info');
-		let browserData = {};
+		const rawDataBrowser = formData.get('data_browser');
+		let dataKlien = {};
 
 		try {
-			browserData = rawBrowserInfo ? JSON.parse(rawBrowserInfo) : {};
+			dataKlien = rawDataBrowser ? JSON.parse(rawDataBrowser) : {};
 		} catch (e) {
-			console.error('Gagal parse browser info:', e);
+			console.error('Gagal membaca data browser:', e);
 		}
 
-		// Tambahkan info yang hanya bisa didapat di sisi Server (IP & Server Headers)
-		const completeData = {
-			pesan: pesan,
-			ipAddress: getClientAddress(), // Alamat IP Pengunjung
-			serverReceivedAt: new Date().toISOString(),
-			headers: {
-				acceptLanguage: request.headers.get('accept-language'),
-				secChUa: request.headers.get('sec-ch-ua'), // Info browser modern
-				secChUaMobile: request.headers.get('sec-ch-ua-mobile'),
-				secChUaPlatform: request.headers.get('sec-ch-ua-platform')
+		// Penggabungan data server & klien dalam Bahasa Indonesia
+		const dataLengkap = {
+			pesanPengguna: pesan,
+			alamatIp: getClientAddress(),
+			waktuServerDiterima: new Date().toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' }),
+			headerServer: {
+				bahasaDiterima: request.headers.get('accept-language'),
+				platformPerangkat: request.headers.get('sec-ch-ua-platform'),
+				sistemMobile: request.headers.get('sec-ch-ua-mobile') === '?1' ? 'Ya (Mobile)' : 'Bukan Mobile'
 			},
-			clientInfo: browserData
+			detailPerangkatKlien: dataKlien
 		};
 
-		// Cetak di terminal server untuk debugging/melihat hasilnya
-		console.log('=== DATA LENGKAP PENGUNJUNG ===');
-		console.log(JSON.stringify(completeData, null, 2));
-
-		// Di sini kamu bisa simpan `completeData` ke Database (Supabase/Firebase/Prisma, dll)
+		console.log('=== DATA PENGUNJUNG MOBILE ===');
+		console.log(JSON.stringify(dataLengkap, null, 2));
 
 		return {
 			success: true
