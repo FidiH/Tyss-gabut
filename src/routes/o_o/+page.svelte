@@ -4,12 +4,13 @@
 
 	let Panggilan_User_Ke_Saya = $state('');
 	let pesanDiisi = $state(false);
+	let isSubmitting = $state(false);
 
 	// Object untuk menampung data informasi perangkat/browser
 	let infoBrowser = $state({});
 
 	onMount(async () => {
-		// 1. Pengecekan localStorage
+		// 1. Cek penyimpanan nama di localStorage
 		const savedName = localStorage.getItem('panggilan_user');
 		if (savedName) {
 			Panggilan_User_Ke_Saya = savedName;
@@ -21,11 +22,12 @@
 			}
 		}
 
+		// 2. Cek apakah form sudah pernah dikirim sebelumnya
 		if (localStorage.getItem('pesan_sudah_dikirim') === 'true') {
 			pesanDiisi = true;
 		}
 
-		// 2. Deteksi Merek HP (Menggunakan User-Agent Client Hints jika didukung)
+		// 3. Deteksi Merek & Model HP (Client Hints & Fallback User-Agent)
 		let merekHP = 'Tidak terdeteksi';
 		let modelHP = 'Tidak terdeteksi';
 
@@ -33,8 +35,7 @@
 			try {
 				const hints = await navigator.userAgentData.getHighEntropyValues(['model', 'platformVersion']);
 				modelHP = hints.model || 'Tidak diketahui';
-				
-				// Mengambil merek dari daftar brands
+
 				const brandData = navigator.userAgentData.brands.find(
 					(b) => !b.brand.includes('Not') && !b.brand.includes('Chromium')
 				);
@@ -43,7 +44,6 @@
 				console.log('Gagal mengambil detail merek HP:', e);
 			}
 		} else {
-			// Fallback: Analisis sederhana dari User Agent String
 			const ua = navigator.userAgent;
 			if (/iPhone/i.test(ua)) merekHP = 'Apple (iPhone)';
 			else if (/Samsung/i.test(ua)) merekHP = 'Samsung';
@@ -54,7 +54,7 @@
 			else if (/Android/i.test(ua)) merekHP = 'Android (Merek Generik)';
 		}
 
-		// 3. Kumpulkan Informasi Lengkap dalam Bahasa Indonesia
+		// 4. Kumpulkan Informasi Lengkap
 		infoBrowser = {
 			waktuKlien: new Date().toLocaleString('id-ID', { timeZoneName: 'short' }),
 			merekPerangkat: merekHP,
@@ -76,12 +76,25 @@
 	});
 
 	function handleSubmit() {
+		// Kunci tombol untuk mencegah double-click
+		isSubmitting = true;
+
 		return async ({ result }) => {
+			// Buka kembali kunci setelah respon selesai
+			isSubmitting = false;
+
 			if (result.type === 'success') {
 				localStorage.setItem('pesan_sudah_dikirim', 'true');
 				pesanDiisi = true;
 			}
 		};
+	}
+
+	function resetPanggilan() {
+		localStorage.removeItem('panggilan_user');
+		localStorage.removeItem('pesan_sudah_dikirim');
+		Panggilan_User_Ke_Saya = '';
+		pesanDiisi = false;
 	}
 </script>
 
@@ -91,28 +104,33 @@
 
 		{#if !pesanDiisi}
 			<form action="/kita-main" method="POST" use:enhance={handleSubmit} class="mt-4">
-				<label for="Jejak" class="block mb-1 text-sm font-medium">mungkin kamu ingin meninggalkan catatan?: <br> catatan yang kamu kirim gak bisa di hapus sebelum aku baca</label>
+				<label for="Jejak" class="block mb-1 text-sm font-medium">Tinggalkan aku catatan, setelah dikirim tidak bisa dihapus sebelum saya baca</label>
 
 				<textarea
 					class="border py-2 px-3 rounded-lg block mb-3 w-full"
-					placeholder="Kasih kata kata..."
+					placeholder="catatan..."
 					name="pesan"
 					id="Jejak"
-					rows="8"
+					rows="4"
 					required
 				></textarea>
 
-				<!-- INPUT HIDDEN: Mengirimkan data berbahasa Indonesia -->
+				<!-- Input hidden untuk mengirim data ke server -->
+				<input type="hidden" name="panggilan_user" value={Panggilan_User_Ke_Saya} />
 				<input type="hidden" name="data_browser" value={JSON.stringify(infoBrowser)} />
 
-				<button class="w-full font-bold text-white rounded-xl py-2 px-4 bg-pink-500 cursor-pointer active:bg-pink-600" type="submit">
-					Kirim
+				<button
+					class="w-full font-bold text-white rounded-xl py-2 px-4 bg-pink-500 cursor-pointer active:bg-pink-600 disabled:opacity-50 disabled:cursor-not-allowed"
+					type="submit"
+					disabled={isSubmitting}
+				>
+					{isSubmitting ? 'Mengirim...' : 'Kirim'}
 				</button>
 			</form>
 		{:else}
-			<p class="mt-4 text-green-600 font-semibold">saya sudah baca buku darimu, sy ada something else yg mungkin bisa menjawab pernyataanmu </p>
+			<p class="mt-4 text-slate-700">saya sudah baca buku darimu, sy ada something else yg mungkin bisa menjawab pernyataanmu </p>
 			<a href="/1" class="inline-block mt-2 font-bold text-white rounded-xl py-2 px-4 bg-pink-500">
-			baiklah
+				lanjut
 			</a>
 		{/if}
 	</section>
